@@ -7,10 +7,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GoogleBooksApiService {
-    @GET
+    @GET("volumes")
     suspend fun getBooksList(@Query("q") q:String): Books
 
-    @GET("{bookId}")
+    @GET("volumes/{bookId}")
     suspend fun getBookInfo(
         @Path("bookId") bookId:Int
     ): BookInfo

@@ -12,6 +12,7 @@ import com.practicecoding.googlebooks.GoogleBooksApplication
 import com.practicecoding.googlebooks.data.GoogleBooksRepository
 import com.practicecoding.googlebooks.util.BookInfoUiState
 import com.practicecoding.googlebooks.util.BookListUiState
+import com.practicecoding.googlebooks.util.SearchBooksEvent
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -19,16 +20,16 @@ import java.io.IOException
 class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksRepository): ViewModel(){
     var bookListUiState: BookListUiState by mutableStateOf(BookListUiState.Loading)
         private set
-
+    var search by mutableStateOf("")
+        private set
     var bookInfoUiState: BookInfoUiState by mutableStateOf(BookInfoUiState.Loading)
         private set
-
     fun getBooksList(search: String){
         viewModelScope.launch{
             bookListUiState = BookListUiState.Loading
             bookListUiState = try {
                 BookListUiState.Success(
-                    googleBooksRepository.getBooksList(search)
+                    googleBooksRepository.getBooksList(search = search)
                 )
             }catch (e: IOException){
                 BookListUiState.Error
@@ -49,6 +50,20 @@ class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksReposit
                 BookInfoUiState.Error
             }catch (e: HttpException){
                 BookInfoUiState.Error
+            }
+        }
+    }
+
+    fun onEvent(event: SearchBooksEvent){
+        when(event){
+            is SearchBooksEvent.OnSearchBookClick -> {
+                getBooksList(search = search)
+                event.navController.navigate(
+                    "book_list_screen"
+                )
+            }
+            is SearchBooksEvent.SetSearch -> {
+                search = event.value
             }
         }
     }

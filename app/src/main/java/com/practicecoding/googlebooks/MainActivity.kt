@@ -11,11 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.practicecoding.googlebooks.ui.screens.BookListScreen
+import com.practicecoding.googlebooks.ui.screens.BooksSearchScreen
+import com.practicecoding.googlebooks.ui.screens.GoogleBooksViewModel
 import com.practicecoding.googlebooks.ui.theme.GoogleBooksTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,23 +32,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val googleBooksViewModel: GoogleBooksViewModel =
+                        viewModel(factory = GoogleBooksViewModel.Factory)
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
                         startDestination = "books_search_screen"
                     ){
                         composable("books_search_screen"){
-
+                            BooksSearchScreen(navController = navController, googleBooksViewModel = googleBooksViewModel, )
                         }
                         composable(
-                            "book_list_screen/{search}",
-                            arguments = listOf(
-                                navArgument("search"){
-                                    type = NavType.StringType
-                                }
-                            )
+                            "book_list_screen",
                         ){
-                            val search = it.arguments?.getString("search")
+                            BookListScreen(bookListUiState = googleBooksViewModel.bookListUiState)//, retryAction = googleBooksViewModel.getBooksList(googleBooksViewModel.search))
                         }
                         composable(
                             "book_info_screen/{bookId}",

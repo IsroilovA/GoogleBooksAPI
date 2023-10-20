@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -36,12 +34,11 @@ import com.practicecoding.googlebooks.util.BookListUiState
 @Composable
 fun BookListScreen(
     bookListUiState: BookListUiState,
-    getBooks: () -> Unit,
-    retryAction: () -> Unit,
+    //retryAction: (search: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when(bookListUiState){
-        BookListUiState.Error -> ErrorScreen(retryAction = retryAction, modifier = Modifier.fillMaxSize())
+        BookListUiState.Error -> ErrorScreen(/*retryAction = retryAction(),*/ modifier = Modifier.fillMaxSize())
         BookListUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
         is BookListUiState.Success -> BookListGrid(books = bookListUiState.books)
     }
@@ -56,7 +53,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ErrorScreen(retryAction:() -> Unit, modifier: Modifier = Modifier) {
+fun ErrorScreen(/*retryAction:() -> Unit,*/ modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -64,11 +61,11 @@ fun ErrorScreen(retryAction:() -> Unit, modifier: Modifier = Modifier) {
     ) {
         Image(painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = "connection error")
         Text(text = "Failed to load", modifier = Modifier.padding(16.dp))
-        Button(onClick = {
-            retryAction
-        }) {
-            Text(text = "Retry")
-        }
+//        Button(onClick = {
+//            retryAction
+//        }) {
+//            Text(text = "Retry")
+//        }
     }
 }
 
@@ -100,7 +97,7 @@ fun BookCard(
         Column {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(booksListItem.volumeInfo.imageLinks.thumbnail)
+                    .data(booksListItem.volumeInfo.imageLinks.thumbnail.replace("http", "https"))
                     .build(),
                 contentDescription = "Book Image",
                 contentScale = ContentScale.FillWidth,
