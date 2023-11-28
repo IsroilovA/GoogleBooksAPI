@@ -17,7 +17,7 @@ data class BooksListItem(
 @Serializable
 data class VolumeInfo(
     val title: String,
-    val imageLinks: ImageLinks
+    val imageLinks: ImageLinks? = null
 )
 
 @Serializable

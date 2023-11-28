@@ -4,14 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -74,16 +79,20 @@ fun BookListGrid(
     books: Books,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(4.dp)
+    LazyColumn(
+        contentPadding = PaddingValues(4.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
     ){
         items(items = books.items, key = {book -> book.id}){book ->
-            BookCard(booksListItem = book, modifier = modifier
-                .padding(4.dp)
+            BookCard(booksListItem = book,
+                modifier = modifier
+                .padding(8.dp)
                 .fillMaxWidth()
-                .aspectRatio(1.5f))
+                .aspectRatio(1.5f)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -94,15 +103,20 @@ fun BookCard(
     modifier: Modifier = Modifier
 ) {
     Card {
-        Column {
+        Column (
+            modifier = Modifier.padding(4.dp)
+        ){
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(booksListItem.volumeInfo.imageLinks.thumbnail.replace("http", "https"))
+                    .data(booksListItem.volumeInfo.imageLinks?.thumbnail?.replace("http", "https"))
                     .build(),
                 contentDescription = "Book Image",
-                contentScale = ContentScale.FillWidth,
-                error = painterResource(id = R.drawable.ic_connection_error),
-                placeholder = painterResource(id = R.drawable.loading_img)
+                error = painterResource(id = R.drawable.ic_broken_image),
+                placeholder = painterResource(id = R.drawable.loading_img),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize(2f)
+                    .padding(4.dp)
             )
             Text(
                 text = booksListItem.volumeInfo.title,
