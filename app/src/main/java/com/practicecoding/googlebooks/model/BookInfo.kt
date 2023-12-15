@@ -11,10 +11,15 @@ data class BookInfo(
 @Serializable
 data class Info(
     val title: String,
+    val imageLinks: ImageLinksInfo,
     val authors: List<String>,
     val publisher: String,
     val publishedDate: String,
-    val description: String,
     val pageCount: Int,
     val language: String
+)
+
+@Serializable
+data class ImageLinksInfo(
+    val thumbnail: String
 )

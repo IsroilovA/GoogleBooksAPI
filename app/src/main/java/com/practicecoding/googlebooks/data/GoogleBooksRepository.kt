@@ -6,12 +6,12 @@ import com.practicecoding.googlebooks.network.GoogleBooksApiService
 
 interface GoogleBooksRepository {
     suspend fun getBooksList(search: String): Books
-    suspend fun getBookInfo(id: Int): BookInfo
+    suspend fun getBookInfo(id: String): BookInfo
 }
 
 class NetworkGoogleBooksRepository(
     private val googleBooksApiService: GoogleBooksApiService
 ): GoogleBooksRepository{
     override suspend fun getBooksList(search: String): Books = googleBooksApiService.getBooksList(search)
-    override suspend fun getBookInfo(id: Int): BookInfo = googleBooksApiService.getBookInfo(id)
+    override suspend fun getBookInfo(id: String): BookInfo = googleBooksApiService.getBookInfo(id)
 }

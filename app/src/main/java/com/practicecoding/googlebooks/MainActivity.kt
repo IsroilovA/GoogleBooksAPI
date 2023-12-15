@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.practicecoding.googlebooks.ui.screens.BookInfoScreen
 import com.practicecoding.googlebooks.ui.screens.BookListScreen
 import com.practicecoding.googlebooks.ui.screens.BooksSearchScreen
 import com.practicecoding.googlebooks.ui.screens.GoogleBooksViewModel
@@ -45,17 +46,12 @@ class MainActivity : ComponentActivity() {
                         composable(
                             "book_list_screen",
                         ){
-                            BookListScreen(bookListUiState = googleBooksViewModel.bookListUiState)//, retryAction = googleBooksViewModel.getBooksList(googleBooksViewModel.search))
+                            BookListScreen(navController= navController, bookListUiState = googleBooksViewModel.bookListUiState, googleBooksViewModel = googleBooksViewModel)//, retryAction = googleBooksViewModel.getBooksList(googleBooksViewModel.search))
                         }
                         composable(
-                            "book_info_screen/{bookId}",
-                            arguments = listOf(
-                                navArgument("bookId"){
-                                    type = NavType.StringType
-                                }
-                            )
-                        ){
-                            val bookId = it.arguments?.getString("bookId")
+                            "book_info_screen"
+                            ){
+                            BookInfoScreen(bookInfoUiState = googleBooksViewModel.bookInfoUiState)
                         }
                     }
                 }

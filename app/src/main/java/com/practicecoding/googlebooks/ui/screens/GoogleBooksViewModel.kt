@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicecoding.googlebooks.GoogleBooksApplication
 import com.practicecoding.googlebooks.data.GoogleBooksRepository
 import com.practicecoding.googlebooks.util.BookInfoUiState
+import com.practicecoding.googlebooks.util.BookListEvent
 import com.practicecoding.googlebooks.util.BookListUiState
 import com.practicecoding.googlebooks.util.SearchBooksEvent
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksReposit
         }
     }
 
-    fun getBookInfo(id: Int){
+    fun getBookInfo(id: String){
         viewModelScope.launch {
             bookInfoUiState = BookInfoUiState.Loading
             bookInfoUiState = try {
@@ -54,6 +55,16 @@ class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksReposit
         }
     }
 
+    fun onBookListEvent(event: BookListEvent){
+        when(event){
+            is BookListEvent.OnBookClick -> {
+                getBookInfo(event.bookId)
+                event.navController.navigate(
+                    "book_info_screen"
+                )
+            }
+        }
+    }
     fun onEvent(event: SearchBooksEvent){
         when(event){
             is SearchBooksEvent.OnSearchBookClick -> {
@@ -61,6 +72,7 @@ class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksReposit
                 event.navController.navigate(
                     "book_list_screen"
                 )
+                search = ""
             }
             is SearchBooksEvent.SetSearch -> {
                 search = event.value

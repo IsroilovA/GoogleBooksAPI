@@ -28,7 +28,6 @@ import com.practicecoding.googlebooks.util.SearchBooksEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BooksSearchScreen(navController: NavController, googleBooksViewModel: GoogleBooksViewModel) {
-
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
