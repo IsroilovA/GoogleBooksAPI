@@ -21,5 +21,5 @@ data class Info(
 
 @Serializable
 data class ImageLinksInfo(
-    val thumbnail: String
+    val medium: String
 )
