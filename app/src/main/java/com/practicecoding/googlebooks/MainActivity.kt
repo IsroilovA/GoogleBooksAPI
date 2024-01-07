@@ -12,11 +12,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.practicecoding.googlebooks.ui.screens.AppBarTop
 import com.practicecoding.googlebooks.ui.screens.BookInfoScreen
 import com.practicecoding.googlebooks.ui.screens.BookListScreen
 import com.practicecoding.googlebooks.ui.screens.BooksSearchScreen
@@ -58,15 +57,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GoogleBooksTopAppBar(
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(title = {
-        Text(text = "Google Books App",
-            style = MaterialTheme.typography.headlineMedium)
-    })
 }

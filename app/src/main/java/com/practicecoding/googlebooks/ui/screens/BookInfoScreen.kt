@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -65,7 +64,8 @@ fun BookInformation(
             FloatingActionButton(onClick = { googleBooksViewModel.onUiEvent(UiEvents.PopBackStack(navController)) }, modifier = Modifier.size(70.dp)) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back button")
             }
-        }
+        },
+        topBar = { AppBarTop() }
     ) {
         Column(
             modifier = Modifier.padding(6.dp)

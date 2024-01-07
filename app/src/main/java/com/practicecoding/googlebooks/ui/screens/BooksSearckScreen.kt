@@ -2,7 +2,10 @@ package com.practicecoding.googlebooks.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,38 +27,41 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.practicecoding.googlebooks.util.UiEvents
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BooksSearchScreen(navController: NavController, googleBooksViewModel: GoogleBooksViewModel) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(6.dp)
-    ) {
-        BasicTextField(
-            value = googleBooksViewModel.search,
-            onValueChange = {
-                googleBooksViewModel.onUiEvent(UiEvents.SetSearch(it))
-            },
-            maxLines = 1,
-            singleLine = true,
-            textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+    Column() {
+        AppBarTop()
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .height(50.dp)
-                .shadow(5.dp, CircleShape)
-                .background(Color.White, CircleShape)
-                .padding(horizontal = 20.dp, vertical = 12.dp)
-        )
-        Button(
-            modifier = Modifier.padding(12.dp),
-            onClick = {
-                googleBooksViewModel.onUiEvent(UiEvents.OnSearchBookClick(navController))
-            }
+                .fillMaxSize()
+                .padding(6.dp)
         ) {
-            Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+            BasicTextField(
+                value = googleBooksViewModel.search,
+                onValueChange = {
+                    googleBooksViewModel.onUiEvent(UiEvents.SetSearch(it))
+                },
+                maxLines = 1,
+                singleLine = true,
+                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .height(50.dp)
+                    .shadow(5.dp, CircleShape)
+                    .background(Color.White, CircleShape)
+                    .padding(horizontal = 20.dp, vertical = 12.dp)
+            )
+            Button(
+                modifier = Modifier.padding(12.dp),
+                onClick = {
+                    googleBooksViewModel.onUiEvent(UiEvents.OnSearchBookClick(navController))
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+            }
         }
     }
-
 }

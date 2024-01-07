@@ -66,16 +66,17 @@ fun BookListGrid(
     modifier: Modifier = Modifier
 ) {
     Scaffold (
-      floatingActionButton = {
-          FloatingActionButton(
-              onClick = {
-                  googleBooksViewModel.onUiEvent(UiEvents.SearchButtonCLick(navController))
-              },
-              modifier = Modifier.size(70.dp)
-          ) {
-              Icon(imageVector = Icons.Default.Search, contentDescription = "Search Button")
-          }
-      }
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    googleBooksViewModel.onUiEvent(UiEvents.SearchButtonCLick(navController))
+                  },
+                modifier = Modifier.size(70.dp)
+            ) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Search Button")
+            }
+        },
+        topBar = { AppBarTop() }
     ) {
         LazyColumn(
             contentPadding = PaddingValues(4.dp),
