@@ -19,11 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.practicecoding.googlebooks.util.SearchBooksEvent
+import com.practicecoding.googlebooks.util.UiEvents
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,12 +30,12 @@ fun BooksSearchScreen(navController: NavController, googleBooksViewModel: Google
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(6.dp)
     ) {
         BasicTextField(
             value = googleBooksViewModel.search,
             onValueChange = {
-                googleBooksViewModel.onEvent(SearchBooksEvent.SetSearch(it))
+                googleBooksViewModel.onUiEvent(UiEvents.SetSearch(it))
             },
             maxLines = 1,
             singleLine = true,
@@ -52,7 +51,7 @@ fun BooksSearchScreen(navController: NavController, googleBooksViewModel: Google
         Button(
             modifier = Modifier.padding(12.dp),
             onClick = {
-                googleBooksViewModel.onEvent(SearchBooksEvent.OnSearchBookClick(navController))
+                googleBooksViewModel.onUiEvent(UiEvents.OnSearchBookClick(navController))
             }
         ) {
             Icon(imageVector = Icons.Default.Search, contentDescription = "Search")

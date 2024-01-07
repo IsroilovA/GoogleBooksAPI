@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             "book_info_screen"
                             ){
-                            BookInfoScreen(bookInfoUiState = googleBooksViewModel.bookInfoUiState)
+                            BookInfoScreen(bookInfoUiState = googleBooksViewModel.bookInfoUiState, googleBooksViewModel = googleBooksViewModel, navController = navController)
                         }
                     }
                 }

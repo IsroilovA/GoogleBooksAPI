@@ -11,9 +11,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicecoding.googlebooks.GoogleBooksApplication
 import com.practicecoding.googlebooks.data.GoogleBooksRepository
 import com.practicecoding.googlebooks.util.BookInfoUiState
-import com.practicecoding.googlebooks.util.BookListEvent
 import com.practicecoding.googlebooks.util.BookListUiState
-import com.practicecoding.googlebooks.util.SearchBooksEvent
+import com.practicecoding.googlebooks.util.UiEvents
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -55,27 +54,32 @@ class GoogleBooksViewModel(private val googleBooksRepository: GoogleBooksReposit
         }
     }
 
-    fun onBookListEvent(event: BookListEvent){
+    fun onUiEvent(event: UiEvents){
         when(event){
-            is BookListEvent.OnBookClick -> {
+            is UiEvents.OnBookClick -> {
                 getBookInfo(event.bookId)
                 event.navController.navigate(
                     "book_info_screen"
                 )
             }
-        }
-    }
-    fun onEvent(event: SearchBooksEvent){
-        when(event){
-            is SearchBooksEvent.OnSearchBookClick -> {
+            is UiEvents.OnSearchBookClick -> {
                 getBooksList(search = search)
                 event.navController.navigate(
                     "book_list_screen"
                 )
-                search = ""
             }
-            is SearchBooksEvent.SetSearch -> {
+            is UiEvents.SearchButtonCLick -> {
+                search = ""
+                event.navController.navigate(
+                    "books_search_screen"
+                )
+            }
+            is UiEvents.SetSearch -> {
                 search = event.value
+            }
+
+            is UiEvents.PopBackStack -> {
+                event.navController.popBackStack()
             }
         }
     }
